@@ -1,0 +1,216 @@
+**COMPUTER NETWORKS: **
+
+**WHAT IS A DATA PACKET ? **
+data packet is a small, formatted unit of data sent over a packet-switched network, such as the internet, when a large file is sent over network, system does not trasnmit all at once, instead the OS breaks the data down into millions of these bite sized packets so they can travel efficiently across network hardware withotu clogging the lines
+
+**anatomy of a data packet : **
+every data packet is divided into three disticnt structural parts, resembling a physical postal letter 
+- **the header (envelope) : **header contaisn metadata required to route the packet to its destination, sits at the front of the packet and contains : **source IP Address, destinaton IP address, Packet number (**serial number of this specific packet in the stream), **protocol type (**what kind of packet is this, IPV4, OR IPV6
+
+- **the payload (the letter inside) : **actual raw data being trasnmittedm tiny fragment of larger asset, such as a piece of an html page, snippet of VoIP phone call stream, few pizels of a JPEG image
+
+**- The trailer : ** the trailer sits at the end of the packet and contaisn error checking mechanicsm, most notably a **cyclic reduncancy check (crc) or checksum**
+          - when a packet arrives the receiving device calculates a mathematical value based on the bits inside the payload
+          - if the calculates value matches the value stamped inside the trailer, the packet is healthy
+          - 
+
+**WHAT IS A NETWORK? **
+a network is a collection of autonomous computing devices, such as servers, smartphones, routers and IOT hardware, interconnected by communication links to share resources, exchange data and execute distributed tasks
+
+**the core components : **
+every computer network relies on three foundational elements to operate : 
+  **- end systems : **the devices that originate or consume data (laptop, api server, network printer)
+  **- transmission media : **physical pathways carrying signals, divided into guided (copper cables, fiber optics) and unguided (wifi, cellular radio, satelittle)
+  - **intermediary devices : **specialized hardware that directs traffic through the network infrastructure (switching pperates at layer 2, and routers operating at layer 3)
+
+**how networks are classified **
+primarily categorized by geographic scale and operational boundaries
+- **PAN (personal area network) : **centered aroung a single person in a localized  space, typically using bluetooth
+- LAN (local area network) : connectes devices within a limited area like a single office, home or school typically utilizing high speed thernet or wifi
+- MAN(metropolitan rea network) : convers a larger geographic area such as an entire city or a massive univeristy campus, often managed by a consortium or service provider
+- WAN( Wide area network ) : spans broad physical distnaces acorss countries or continents (enterprise corporate networks  linking global branch offices), the global internet is the largest public WAN in existence
+
+
+**rules for communication : protocols - **for independent devices on network to understand each other, must adhere strict, standardized sets of rules called **protocols**
+
+these protocols dictate how data is formatted, addressed, transmitted and checked for errors, modern network architectures organize these rules into conceptual abstraction layers, most notably TCP/IP model : 
+  - **application layer : **where network apps operate, http for web browsing, ssh for remote access
+  - **transport layer : **manages host to host data delivery, ensuring reliabiltity (via TCP) or speed (via UDP)
+  - **internet layer : **handles logical addressing and routing across different networks, primarily utilizing IP Addresses
+  - **network access layer : **translates data into physical electrical, optical or radio signals to transition across the actual hardware cables or airwaves,
+
+
+
+
+
+**NETWORK DEVICES:**
+hubs, swtiches and routers are the core hardware devices used to connec computing equipment together, while they look similar from the outside, they operate at entirely different layers of TCP/IP model and process data wth varying levels of intelligence
+
+**Hub (**the broadcast device) : legacy network device that connectes mutliple computers together in a local Area Network (LAN), acting as a basic connection point
+- it has no internal intelligence and does not read the data passing through it, when a data packet arrives at one port, the hubs imply duplicates it and broadcasts it to every other single port on the device
+- network layer : operates at physical layer 1
+- key limitation : creates a single collision domain, if 2 devices transmit data at the exact same time, signals collide corrupting the data and forcing a retransmission, this makes hubs highly inefficient and obsolete in modern networks
+
+**Switch (the smart local coordinator) : **
+a switch connects devices within the same LAN just like a hub, but does it intelligently, 
+  - **how it works : **a switch inspects incoming data frames to read their mac addresses (the unique physical hardware ID of each network card), it records these addresses in an internal routing table (CAM table), when a device sends data, the switch targets and forwards that packet **only **to the specific destination port, bypassing unrelated devices
+  - **network layer : **operates at the Data link layer
+  - key advatnage : every single port on a switch is itsn own isolated collision domain, devices can talk simulatneosuly w/0 interfeering with one another, maximisng local network speed
+
+**Router (the gateway to the outside world) : **
+a router connectes entirely **different networks **together, such as linking your home LAN to the global internet (WAN), 
+  - **how it works : **routers do not care about physical MAC addresses; instead they read IP addresses, they act like traffic controllers on an intersection, reading the desination IP network on a packet and analyzing routing tables to determine the absolute fastest path to forward that packet out of the local network toward its dstination
+  - network layer 3
+  - key adv : assign ip addresses (via DHCP) enforce security barriers (firewalls) and translate local private IP network traffci into a single IP address (NAT) so your home devices can safely browse external web servers
+
+
+
+
+
+**WHAT IS NETWORK TOPOLOGY ?**
+network topology is the structural arrangement or layout of a computer network, defines how different nodes, such as computers, servers, switches and routers, are mapped out and interconnected to communicate with one another
+
+analyzed thru 2 distinct lenses : 
+- **physical topology : **actual physical layout of the hardware, including cables, device locations, and wire installation paths
+- logical topology : conceptual path that data packets take to travel through the network, regardless of the physical cable layout
+
+**standard network topologies : **
+- star topology (modern standard) - in star topology, every individual node connects directly to a central hub or switch
+              - if comp A wants to send a data packet to comp B, the packet must pass thorugh thr central switch first
+              - **adv** : high fault tolerance, if 1 cable breaks, only that single computer loses network access,, rest of network stays online
+              - **disadv : **the central switch is a single point of failure, if the switch breaks, the entire network goes down
+
+- mesh topology (ultra reliable) : in mesh topology, devices are redundant and interconnected, in a **full mesh**, every single node connectes directly to every other node, in a **partial mesh**, only critical nodes have redundant connections
+              - data packets have multiple physical paths to choose from to reach their desitniton
+              - **adv : **exceptional reliability, if 3 routers fail, traffic is simply rerouted dynamically through other paths
+              - **disadv** : extremely expensive & complex to wire up due to the massive volume of cabling and ports required
+
+- ring topology (the sequential loop) : in a ring topology, each device connects to exactly two neighboruign devices, forming a continous circular loop, 
+              - data packets travel in a single direction aroudn the ring, each device acts as a repeater, passign the packet along until it reaches the destination
+              - **adv : **no data collisions occur because token passing protocols govern who can speak
+              - **disadv **: a single break in the cable or one broken computer snaps the loop, bringing down the entire network
+
+- bus topology : connects all devices to single main cable called backbone, 
+              - data sent by a compputer travels down the wirre in both dircetions, terminators are placed at the ends of the cable to stop the signal frm bouncing back
+              - adv : very cheap and simple to setup for small, temporary networks
+              - disadv : if the main backbone cable breaks anywhere, enrire network splits and stop sfuncitoning immeidately
+
+- **hybrid topology (real world reality) : **a hybrid topology combines two or more diff topologies together, eg large corporate office might use tree topology (variation of hybrid), where multiple star networks are chained together along a central bus line
+
+
+
+
+
+**NODES AND LINKS : **
+in computer networking, nodes and links are 2 foundational building blocks that make up any network topology, if u think of network as map, nodes are the destinations (cities) and links are the pathways (roads) connecting them
+
+Nodes : a node is any active physical device attached to a network that is capable of sending, receiving or forwarding data packets over a communcation channel. Each node must have a unique identifier, such as IP or MAC address, so other devices can locate it
+        - end nodes (hosts) : starting points or final destintatiosn of data pakcets, eg include your laptop, smartphone, tv, dbservers, network attached storage
+        - intermediary nodes : sit in the middle of network, sole job is to clean, boost or redirect data traffic across the system, includes switches, routers and hubs
+
+Links : physical or logical communication channel that connects 2 or more nodes together, allwoing them to exchange data bits
+          - Guided (wired) : physical cables that contain and guiude signals along a specific path
+                          - twisted pair (ethernet) : standard copper cables used in local office and home lans
+                          - fiber optic cables : thin strands of glass that transmit data as pulses of light over massive distnaces at extreme speeds
+                          - 
+          - Unguided (wireless) links : channels that use electromamngnetic waves to trasnmit data through the air of space, wifi bluetooth, cellular networks, satelllitle arrays
+
+
+
+
+
+
+**OSI MODEL : Open Systems Interconnection **model is a conceptual framework created by International Org for Standardization (ISO) that starndardises the functions of telecommunication or computing system
+
+instead of treating networking as one giant, complex process, OSI model breaks it down ti 7 distinct layers, each layer serves the layer above it, and i served by one below it, allows diff hardware manufacturers and software developers to build products that work together seamlesly
+
+7 layers of OSI Model : the layers are traditionally viewed from the top down (App to physical) or bottom up (Physical to Application) 
+
+  - layer 7: app layer - layer interacts directly with the software application you are using, **identifies communication partners, determines resource availability** and syncrhonizes communication, HTTP/HTTPS web browsing, SMTP(email), FTP (file transfer)
+  - Layer 6 : presentation layer : translates formats and prepares data so the application layer can understand it, acts as network's translator, **handles data formatting, data compression, and encryption decryption like ssl/tls**, for eg : JPEG, MP3, ASCII, encryption keys
+  - Layer 5 : **session layer - **establishes, manages and terminates communication sessiosn between two distinct nodes, **acts as coordinator, **setting up checkpoints during file trandfer so if a connection stops, it can resume from last checkpoint rather than starting over
+  - Layer 4 : transport layer : manages end to end communication, flow control and error checking across the network, **breaks large data from upper layers to smaller segments, ensures they arrive safely in correct order, **and dont overwhelm the receoving node
+  - layer 3 : network layer - handles the routing and forwarding of data across entirely different networks, **slices transport segments into DATA PACKETS, reads **logical IP adress to determine the most efficient physical path for a packet to take, routers operate here
+  - layer 2 : data link layer - provides node to node data transfer within the same exact local network, it packages packets into data frames, it handles error detection from the physical layer an dreads physical hardware MAC addresses, for eg : switches operate here
+  - layer 1 : physical layer - manages the actual physical hardware, cables and electrical signals, it translates data frames into raw unstructured bitstreams, and trasmits them as electrical impulses light pulses or radio waves, for eg ethernet cables, fiber optics wifi airwaves
+
+
+ [Sender]                                         [Receiver]
+Layer 7: Application  --> Raw Data Data       --> Layer 7: Application
+Layer 6: Presentation --> Formatted Data      --> Layer 6: Presentation
+Layer 5: Session      --> Managed Session     --> Layer 5: Session
+Layer 4: Transport    --> Segments            --> Layer 4: Transport
+Layer 3: Network      --> Packets (IP)        --> Layer 3: Network
+Layer 2: Data Link    --> Frames (MAC)        --> Layer 2: Data Link
+Layer 1: Physical     --> Bits (010110)       --> Layer 1: Physical
+                             ||                       ||
+                             \/                       /\
+                    [ Physical Link (Cable/Air) ] =====
+
+
+**TCP/IP PROTOCOL SUITE : **
+internet protocol suite, actual real world conceptal model and set of communication protocosl used to power the modern internet and all ip based networks, while OSI MODEL is an abstract framework with 7 layers, tcp/ip suite is a lean, 4 layer architecture designed for practical implementation, every time borwser opened, stream a video or query a remote nosql datastore, data passes through specific stack
+
+4 layers of tcp/ip suite: 
+- application layer : combines the functions of the OSI model's top three layers (application presentation and session), provides direct network services to user apps and handles data formatting, encryption and session initialization
+              - core protocols : http/https for loading web pages, DNS (translates human readable domain names into numeric IP addresses, ssh/ftp for secure remote access and file movement
+- transport layer : manages host to host data delivery, ensuring data chunks get to the correct software app on the receivign device, slices data into segments and manages traffic speeds
+              - TCP (transmission control protocol) : a connection oriented protocol that guarantees delivery, uses  sequence numbers and a "three way handshake" to ensure no packets are lost or corrupted
+              - UDP (user datagram protocol) : a connectionless, rapid fire protocol, it drops error checking and verification to favor raw speed, making it perrfect for live video streaming and gaming
+- Internet layer : handles the addressing packaging and routing of **data packets** across multiple independt networks, layer gives rhe suite its global reach, 
+              - IP (internet protocol -IPv4, IPv6) responsible for logically addressing data packets so routers know exactly where to send them
+              - ICMP : used for network diagnostics 
+
+- Network Access Layer (Link Layer) : combines the OSI Model's bottom two layers (data link and physical), dictates how data is physically framed and transmitted over a specific hardware medium as bits (elctric, radio ro light isgnlas),
+            - core protocols : **ethernet, 802.11(wifi) and point to point protocol (PPP)**
+
+Real world execution : when nosql db replicates data to another server accross country: 
+  - db app hands the write update to the app layer, 
+  - trnsport layer uses tcp to guarantee that not a single byte of that db record gets corrupted during the journey
+  - intenret layer tsamsp the Ip address of the destination replica server on the data packets
+  - network access layer translates those packets into physical ligth flashes through a fiber optic cable link to cross the country
+
+
+
+
+
+**DIFF BETWEEN TCP/IP AND OSI MODEL : **
+whille both are conceptual frameworks used to understand how computer networks operae, OSI model is an acadmeic, theoritical blueprint, whereas the tcoip model is aptractical, real world architcetrue thta actually powers the modern internet
+
+
+OSI : 
+created by ISO as atherotical guide, was designed before its specific protocols were invented, making it highly structured but less practical for immediate real world use
+
+uses strict, granular 7 layer architecture, treats data formatting, session management and app interaction as completely diff tasks
+
+supports both connectionlewss and connection oriented comm at network layer, but strictly connection oriented communication at the trasnport layer
+
+TCP/IP : 
+devved by US dept of defense, in 1970s, fro ARPANET, tcp and ip protocols were designed and implemented forst, then the model was built around them based on what actually worked
+
+uses a streamlined 4 layer architecture, combines overlapping functionalities to reduce complexity
+
+supports only connectionless cumm at the internet layer (ip simply routes packets without checking if the receiver is ready), but gives developers a choice between connection oriented (tcp) or connectionless (UDP) at the transport layer
+
+    OSI MODEL (7 Layers)                      TCP/IP MODEL (4 Layers)
++---------------------------+               +-------------------------------+
+
+|  7. Application             |                            |                                                          |
+|  6. Presentation          | ----> merges   |  4. Application Layer                   |
+|  5. Session                   |     into...             |     (HTTP, DNS, SSH, SMTP)       |
++---------------------------+               +-------------------------------+
+
+|  4. Transport                | ------------>       |  3. Transport Layer (TCP, UDP)  |
++---------------------------+               +-------------------------------+
+
+|  3. Network                  | ------------>       |  2. Internet Layer (IP)              |
++---------------------------+               +-------------------------------+
+
+|  2. Data Link             | ----> merges  |  1. Network Access Layer      |
+|  1. Physical              |     into...   |     (Ethernet, Wi-Fi, Fiber)  |
++---------------------------+               +------------------------------
+
+
+
+
+
